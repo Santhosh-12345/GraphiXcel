@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAPHIXCEL - Excel to Graph Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Taskbar (Navigation) -->
+    <nav class="navbar">
+        <div class="navbar-brand">GRAPHIXCEL</div>
+        <div class="navbar-profile">
+            <button class="btn-login" hidden>Login</button>
+        </div>
+    </nav>
+
+    <!-- Main Layout: Sidebar and Content -->
+    <div class="main-container">
+        <!-- Main Content Area -->
+        <section class="content">
+            <h1>Welcome to GRAPHIXCEL</h1>
+            <p>Convert your Excel files into beautiful graphs with a few clicks.</p>
+            <div class="action-cards">
+                <div class="card">
+                    <h2>Upload Excel File</h2>
+
+                    <!-- Drag and Drop Area -->
+                    <div id="drop-area" class="drop-area">
+                        <form class="upload-form" id="upload-form">
+                            <p>Drag & drop your Excel file here</p>
+                            <input type="file" id="file-upload" accept=".xlsx" hidden>
+                            <button type="button" id="browse-file">Browse File</button>
+                        </form>
+                    </div>
+
+                    <button class="btn-upload">Upload</button>
+                </div>
+
+                <div class="card">
+                    <h2>Select Graph Type</h2>
+                    <select id="graph-type">
+                        <option value="bar">Bar Graph</option>
+                        <option value="line">Line Graph</option>
+                        <option value="pie">Pie Chart</option>
+                    </select>
+                    <button class="btn-generate">Generate Graph</button>
+                </div>
+
+            </div>
+
+            <!-- Graph Result -->
+            <div id="graph-container">
+                <canvas id="graph" width="400" height="400"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <!-- External JavaScript -->
+    <script>
+        // Handle Browse File Button
+        document.getElementById('browse-file').addEventListener('click', function() {
+            document.getElementById('file-upload').click();
+        });
+
+        // Handle File Selection
+        document.getElementById('file-upload').addEventListener('change', handleFiles);
+
+        // Drag & Drop Functionality
+        let dropArea = document.getElementById('drop-area');
+
+        // Prevent default behaviors for drag/drop events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight drop area when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.classList.add('highlight'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.classList.remove('highlight'), false);
+        });
+
+        // Handle dropped files
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            const fileInput = document.getElementById('file-upload');
+            if (files.length > 0) {
+                fileInput.files = files;
+            }
+            // You can process the file further here
+            console.log('File uploaded:', files[0]);
+        }
+    </script>
+</body>
+</html>
