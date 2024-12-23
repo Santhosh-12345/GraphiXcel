@@ -1,4 +1,3 @@
-GraphiXcel
 GraphiXcel is an intuitive web application that transforms raw Excel data into interactive and visually appealing graphs. This tool enables users to upload Excel files, select the graph type, and visualize their data effectively. It also provides features for downloading the graphs in JPEG format.
 
 Features
